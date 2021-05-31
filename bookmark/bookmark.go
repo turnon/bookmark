@@ -5,6 +5,7 @@ import (
 	"io/ioutil"
 	"net/url"
 	"path/filepath"
+	"sync"
 )
 
 type Bookmark struct {
@@ -16,7 +17,8 @@ type Bookmark struct {
 		Synced      rawEntry
 	}
 
-	cachedEntries []Entry
+	cachedEntries     []Entry
+	lockCachedEntries sync.Mutex
 }
 
 type common struct {
@@ -69,11 +71,16 @@ func (b *Bookmark) roots() map[string]rawEntry {
 
 func (b *Bookmark) Entries() []Entry {
 	if b.cachedEntries == nil {
-		es := []Entry{}
-		for name, root := range b.roots() {
-			es = collectEntries([]string{name}, root.Children, es)
+		b.lockCachedEntries.Lock()
+		defer b.lockCachedEntries.Unlock()
+
+		if b.cachedEntries == nil {
+			es := []Entry{}
+			for name, root := range b.roots() {
+				es = collectEntries([]string{name}, root.Children, es)
+			}
+			b.cachedEntries = es
 		}
-		b.cachedEntries = es
 	}
 
 	return b.cachedEntries
