@@ -18,3 +18,13 @@ func TestEntries(t *testing.T) {
 		t.Error("no entries !")
 	}
 }
+
+func TestDupName(t *testing.T) {
+	stats, err := bookmark.Stat("dupName")
+	if err != nil {
+		t.Error(err)
+	}
+	if count := len(stats); count != 1 {
+		t.Error(count, stats)
+	}
+}
