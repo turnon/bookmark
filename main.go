@@ -2,6 +2,7 @@ package main
 
 import (
 	"flag"
+	"fmt"
 	"github/turnon/bookmark/bookmark"
 
 	"github.com/k0kubun/pp"
@@ -18,10 +19,6 @@ func main() {
 
 	b := bookmark.Load(*filePtr)
 
-	// for _, e := range b.Entries() {
-	// 	fmt.Println(e)
-	// }
-
 	pp.Println("名字重复------------")
 	pp.Println(b.DupName())
 	pp.Println("URL重复------------")
@@ -30,4 +27,8 @@ func main() {
 	pp.Println(b.Hosts())
 	pp.Println("目录统计------------")
 	pp.Println(b.Folders())
+
+	for _, e := range b.Entries() {
+		fmt.Println(e.ToJson())
+	}
 }

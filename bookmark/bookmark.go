@@ -22,9 +22,9 @@ type Bookmark struct {
 type common struct {
 	DateAdded    string `json:"date_added"`
 	DateModified string `json:"date_modified"`
-	GUID         string
-	ID           string
-	Name         string
+	GUID         string `json:"guid"`
+	ID           string `json:"id"`
+	Name         string `json:"name"`
 }
 
 type rawEntry struct {
@@ -36,8 +36,16 @@ type rawEntry struct {
 
 type Entry struct {
 	common
-	URL  string
+	URL  string `json:"url"`
 	path []string
+}
+
+func (entry *Entry) ToJson() string {
+	bytes, err := json.Marshal(entry)
+	if err != nil {
+		panic(err)
+	}
+	return string(bytes)
 }
 
 func Load(path string) *Bookmark {
