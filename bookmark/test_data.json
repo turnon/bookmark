@@ -1,0 +1,110 @@
+{
+   "checksum": "10ac225938332b49c3972a56e5bee081",
+   "roots": {
+      "bookmark_bar": {
+         "children": [
+            {
+               "children": [
+                  {
+                     "children": [
+                        {
+                           "date_added": "13033841256000000",
+                           "guid": "f26a6df6-7693-4381-94c4-83a8a18a1a45",
+                           "id": "48",
+                           "meta_info": {
+                              "last_visited_desktop": "13179072496927952"
+                           },
+                           "name": "全部文章 | MacTalk-池建强的随想录",
+                           "type": "url",
+                           "url": "http://macshuo.com/?page_id=93"
+                        },
+                        {
+                           "date_added": "13048090357000000",
+                           "guid": "02aaec50-eeec-4570-8418-01523cb27753",
+                           "id": "49",
+                           "name": "Home - 廖雪峰的官方网站",
+                           "type": "url",
+                           "url": "http://www.liaoxuefeng.com/"
+                        },
+                        {
+                           "date_added": "13035130148000000",
+                           "guid": "8dbb8b44-9a95-48e8-abe3-76e822e96b05",
+                           "id": "52",
+                           "meta_info": {
+                              "last_visited_desktop": "13205066890272973"
+                           },
+                           "name": "酷壳 – CoolShell.cn",
+                           "type": "url",
+                           "url": "https://coolshell.cn/"
+                        },
+                        {
+                           "date_added": "13058414439000000",
+                           "guid": "65d748e0-a15e-416d-b47e-e6f7597d918c",
+                           "id": "57",
+                           "name": "鸟窝",
+                           "type": "url",
+                           "url": "https://colobu.com/"
+                        }
+                     ],
+                     "date_added": "13156155920334918",
+                     "date_modified": "13258740959737460",
+                     "guid": "2430818f-88b7-4760-ae81-62f4f8ddffa9",
+                     "id": "42",
+                     "name": "blog",
+                     "type": "folder"
+                  },
+                  {
+                     "children": [
+                        {
+                           "date_added": "13244346143680575",
+                           "guid": "ec75e88b-1986-4f95-a09b-b70b4e7588c5",
+                           "id": "67",
+                           "name": "鸟窝",
+                           "type": "url",
+                           "url": "https://colobu.com/archives/"
+                        }
+                     ],
+                     "date_added": "13156155920357979",
+                     "date_modified": "13218814361762352",
+                     "guid": "cc14a8f7-5725-4b83-9c72-22f558f5d54c",
+                     "id": "444",
+                     "name": "collection",
+                     "type": "folder"
+                  }
+               ],
+               "date_added": "13156155920332190",
+               "date_modified": "13245524022490920",
+               "guid": "8a011954-3cab-4b3d-a3dd-1420c93e76be",
+               "id": "6",
+               "name": "amtinfo",
+               "type": "folder"
+            }
+         ],
+         "date_added": "13156155836971307",
+         "date_modified": "13258371762640686",
+         "guid": "00000000-0000-4000-a000-000000000002",
+         "id": "1",
+         "name": "书签栏",
+         "type": "folder"
+      },
+      "other": {
+         "children": [],
+         "date_added": "13156155836971316",
+         "date_modified": "13234721143485055",
+         "guid": "00000000-0000-4000-a000-000000000003",
+         "id": "2",
+         "name": "其他书签",
+         "type": "folder"
+      },
+      "synced": {
+         "children": [],
+         "date_added": "13156155836971317",
+         "date_modified": "0",
+         "guid": "00000000-0000-4000-a000-000000000004",
+         "id": "3",
+         "name": "移动设备书签",
+         "type": "folder"
+      }
+   },
+   "version": 1
+}
