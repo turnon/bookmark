@@ -38,3 +38,13 @@ func TestDupURL(t *testing.T) {
 		t.Error(count, stats)
 	}
 }
+
+func TestHosts(t *testing.T) {
+	stats, err := bookmark.Stat("hosts")
+	if err != nil {
+		t.Error(err)
+	}
+	if count := len(stats); count != 4 {
+		t.Error(count, stats)
+	}
+}

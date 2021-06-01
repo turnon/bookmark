@@ -21,6 +21,9 @@ var statMethods = map[string]*statMethod{
 		groupBy: func(e *Entry) string { return e.URL },
 		onlyDup: true,
 	},
+	"hosts": {
+		groupBy: func(e *Entry) string { return e.Host() },
+	},
 }
 
 func (b *Bookmark) Stat(method string) ([]Stat, error) {
