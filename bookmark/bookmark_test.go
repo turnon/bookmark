@@ -48,3 +48,13 @@ func TestHosts(t *testing.T) {
 		t.Error(count, stats)
 	}
 }
+
+func TestFolders(t *testing.T) {
+	stats, err := bookmark.Stat("folders")
+	if err != nil {
+		t.Error(err)
+	}
+	if count := len(stats); count != 2 {
+		t.Error(count, stats)
+	}
+}
