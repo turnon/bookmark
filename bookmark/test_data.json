@@ -56,6 +56,17 @@
                   {
                      "children": [
                         {
+                           "date_added": "13035130148000000",
+                           "guid": "8dbb8b44-9a95-48e8-abe3-76e822e96b04",
+                           "id": "52",
+                           "meta_info": {
+                              "last_visited_desktop": "13205066890272974"
+                           },
+                           "name": "酷壳",
+                           "type": "url",
+                           "url": "https://coolshell.cn/"
+                        },
+                        {
                            "date_added": "13244346143680575",
                            "guid": "ec75e88b-1986-4f95-a09b-b70b4e7588c5",
                            "id": "67",
