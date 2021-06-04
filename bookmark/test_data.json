@@ -38,6 +38,14 @@
                            "url": "https://coolshell.cn/"
                         },
                         {
+                           "date_added": "13035130148000001",
+                           "guid": "8dbb8b44-9a95-48e8-abe3-76e822e96b03",
+                           "id": "53",
+                           "name": "推荐文章 | 酷 壳 - CoolShell",
+                           "type": "url",
+                           "url": "https://coolshell.cn/featured"
+                        },
+                        {
                            "date_added": "13058414439000000",
                            "guid": "65d748e0-a15e-416d-b47e-e6f7597d918c",
                            "id": "57",

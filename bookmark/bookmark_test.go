@@ -14,8 +14,8 @@ func TestMain(m *testing.M) {
 }
 func TestEntries(t *testing.T) {
 	entries := bookmark.Entries()
-	if count := len(entries); count != 6 {
-		t.Error("no entries !")
+	if count := len(entries); count != 7 {
+		t.Error(count)
 	}
 }
 
@@ -56,5 +56,15 @@ func TestFolders(t *testing.T) {
 	}
 	if count := len(stats); count != 2 {
 		t.Error(count, stats)
+	}
+}
+
+func TestOrder(t *testing.T) {
+	stats, err := bookmark.Stat("hosts")
+	if err != nil {
+		t.Error(err)
+	}
+	if stats[0].Group != "coolshell.cn" {
+		t.Error(stats[0].Group)
 	}
 }

@@ -1,6 +1,9 @@
 package bookmark
 
-import "errors"
+import (
+	"errors"
+	"sort"
+)
 
 type Stat struct {
 	Group   string
@@ -17,26 +20,37 @@ type statMethod struct {
 	name    string
 	groupBy func(e *Entry) string
 	onlyDup bool
+	order   int
 }
+
+const (
+	unorder = iota
+	desc
+	asc
+)
 
 var statMethods = map[string]*statMethod{
 	"dupName": {
 		name:    "名字重复",
 		groupBy: func(e *Entry) string { return e.Name },
 		onlyDup: true,
+		order:   desc,
 	},
 	"dupURL": {
 		name:    "URL重复",
 		groupBy: func(e *Entry) string { return e.URL },
 		onlyDup: true,
+		order:   desc,
 	},
 	"hosts": {
 		name:    "网站统计",
 		groupBy: func(e *Entry) string { return e.Host() },
+		order:   desc,
 	},
 	"folders": {
 		name:    "目录统计",
 		groupBy: func(e *Entry) string { return e.Folder() },
+		order:   desc,
 	},
 }
 
@@ -78,6 +92,21 @@ func (b *Bookmark) Stat(method string) ([]Stat, error) {
 		}
 		st := Stat{Group: group, Entries: entries}
 		stats = append(stats, st)
+	}
+
+	// sort
+	if statMethod.order != unorder {
+		var less func(i int, j int) bool
+		if statMethod.order == desc {
+			less = func(i, j int) bool {
+				return len(stats[i].Entries) > len(stats[j].Entries)
+			}
+		} else {
+			less = func(i, j int) bool {
+				return len(stats[i].Entries) < len(stats[j].Entries)
+			}
+		}
+		sort.Slice(stats, less)
 	}
 
 	return stats, nil
