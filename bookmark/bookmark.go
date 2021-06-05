@@ -2,6 +2,7 @@ package bookmark
 
 import (
 	"encoding/json"
+	"errors"
 	"io/ioutil"
 	"net/url"
 	"path/filepath"
@@ -111,4 +112,26 @@ func (e *Entry) Host() string {
 
 func (e *Entry) Folder() string {
 	return filepath.Join(e.path...)
+}
+
+func (b *Bookmark) Stats() ([]Stats, error) {
+	result := make([]Stats, 0, len(statMethods))
+	for methodName, method := range statMethods {
+		stats, err := b.Stat(methodName)
+		if err != nil {
+			return nil, err
+		}
+		result = append(result, Stats{Name: methodName, Label: method.name, Groups: stats})
+	}
+	return result, nil
+}
+
+func (b *Bookmark) Stat(method string) ([]Stat, error) {
+	statMethod, ok := statMethods[method]
+	if !ok {
+		return nil, errors.New(method + " is not defined")
+	}
+
+	stats := statMethod.process(b.Entries())
+	return stats, nil
 }

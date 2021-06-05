@@ -1,7 +1,6 @@
 package bookmark
 
 import (
-	"errors"
 	"sort"
 )
 
@@ -27,6 +26,8 @@ const (
 	unorder = iota
 	desc
 	asc
+	atoz
+	ztoa
 )
 
 var statMethods = map[string]*statMethod{
@@ -48,46 +49,34 @@ var statMethods = map[string]*statMethod{
 		order:   desc,
 	},
 	"folders": {
-		name:    "目录统计",
+		name:    "目录大小",
 		groupBy: func(e *Entry) string { return e.Folder() },
 		order:   desc,
 	},
+	"dirs": {
+		name:    "目录列表",
+		groupBy: func(e *Entry) string { return e.Folder() },
+		order:   atoz,
+	},
 }
 
-func (b *Bookmark) Stats() ([]Stats, error) {
-	result := make([]Stats, 0, len(statMethods))
-	for methodName, method := range statMethods {
-		stats, err := b.Stat(methodName)
-		if err != nil {
-			return nil, err
-		}
-		result = append(result, Stats{Name: methodName, Label: method.name, Groups: stats})
-	}
-	return result, nil
-}
-
-func (b *Bookmark) Stat(method string) ([]Stat, error) {
-	statMethod, ok := statMethods[method]
-	if !ok {
-		return nil, errors.New(method + " is not defined")
-	}
-
+func (stm *statMethod) process(entries []Entry) []Stat {
 	// grouping into map
 	m := make(map[string][]Entry)
-	for _, e := range b.Entries() {
-		attr := statMethod.groupBy(&e)
+	for _, e := range entries {
+		attr := stm.groupBy(&e)
 		m[attr] = append(m[attr], e)
 	}
 
 	// turn groups into array
 	var stats []Stat
-	if statMethod.onlyDup {
+	if stm.onlyDup {
 		stats = []Stat{}
 	} else {
 		stats = make([]Stat, 0, len(m))
 	}
 	for group, entries := range m {
-		if statMethod.onlyDup && len(entries) <= 1 {
+		if stm.onlyDup && len(entries) <= 1 {
 			continue
 		}
 		st := Stat{Group: group, Entries: entries}
@@ -95,19 +84,35 @@ func (b *Bookmark) Stat(method string) ([]Stat, error) {
 	}
 
 	// sort
-	if statMethod.order != unorder {
-		var less func(i int, j int) bool
-		if statMethod.order == desc {
-			less = func(i, j int) bool {
-				return len(stats[i].Entries) > len(stats[j].Entries)
-			}
-		} else {
-			less = func(i, j int) bool {
-				return len(stats[i].Entries) < len(stats[j].Entries)
-			}
-		}
-		sort.Slice(stats, less)
+	stm.sort(stats)
+
+	return stats
+}
+
+func (stm *statMethod) sort(stats []Stat) {
+	if stm.order == unorder {
+		return
 	}
 
-	return stats, nil
+	var less func(i int, j int) bool
+	switch stm.order {
+	case desc:
+		less = func(i, j int) bool {
+			return len(stats[i].Entries) > len(stats[j].Entries)
+		}
+	case asc:
+		less = func(i, j int) bool {
+			return len(stats[i].Entries) < len(stats[j].Entries)
+		}
+	case atoz:
+		less = func(i, j int) bool {
+			return stats[i].Group < stats[j].Group
+		}
+	case ztoa:
+		less = func(i, j int) bool {
+			return stats[i].Group > stats[j].Group
+		}
+	}
+
+	sort.Slice(stats, less)
 }

@@ -59,12 +59,22 @@ func TestFolders(t *testing.T) {
 	}
 }
 
-func TestOrder(t *testing.T) {
+func TestOrderByCount(t *testing.T) {
 	stats, err := bookmark.Stat("hosts")
 	if err != nil {
 		t.Error(err)
 	}
 	if stats[0].Group != "coolshell.cn" {
+		t.Error(stats[0].Group)
+	}
+}
+
+func TestOrderBynName(t *testing.T) {
+	stats, err := bookmark.Stat("dirs")
+	if err != nil {
+		t.Error(err)
+	}
+	if stats[0].Group != "/amtinfo/collection" || stats[1].Group != "/amtinfo/notes" {
 		t.Error(stats[0].Group)
 	}
 }
