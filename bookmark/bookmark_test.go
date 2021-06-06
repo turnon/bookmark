@@ -1,6 +1,7 @@
 package bookmark
 
 import (
+	"regexp"
 	"testing"
 )
 
@@ -76,5 +77,47 @@ func TestOrderBynName(t *testing.T) {
 	}
 	if stats[0].Group != "/amtinfo/collection" || stats[1].Group != "/amtinfo/notes" {
 		t.Error(stats[0].Group)
+	}
+}
+
+func TestNameFilter(t *testing.T) {
+	ef := EntryFilter{Name: "壳"}
+	re := regexp.MustCompile("壳")
+	entries := ef.filter(bookmark.Entries())
+	if count := len(entries); count != 3 {
+		t.Error(count, entries)
+	}
+	for _, e := range entries {
+		if !re.Match([]byte(e.Name)) {
+			t.Error(entries)
+		}
+	}
+}
+
+func TestURLFilter(t *testing.T) {
+	ef := EntryFilter{URL: "shell"}
+	re := regexp.MustCompile("shell")
+	entries := ef.filter(bookmark.Entries())
+	if count := len(entries); count != 3 {
+		t.Error(count, entries)
+	}
+	for _, e := range entries {
+		if !re.Match([]byte(e.URL)) {
+			t.Error(entries)
+		}
+	}
+}
+
+func TestFolderFilter(t *testing.T) {
+	ef := EntryFilter{Folder: "notes"}
+	re := regexp.MustCompile("notes")
+	entries := ef.filter(bookmark.Entries())
+	if count := len(entries); count != 5 {
+		t.Error(count, entries)
+	}
+	for _, e := range entries {
+		if !re.Match([]byte(e.Folder())) {
+			t.Error(entries)
+		}
 	}
 }

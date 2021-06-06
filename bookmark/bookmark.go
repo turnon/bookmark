@@ -6,6 +6,7 @@ import (
 	"io/ioutil"
 	"net/url"
 	"path/filepath"
+	"regexp"
 	"sync"
 )
 
@@ -41,6 +42,57 @@ type Entry struct {
 	common
 	URL  string `json:"url"`
 	path []string
+}
+
+type EntryFilter struct {
+	Name   string
+	URL    string
+	Folder string
+}
+
+func (ef *EntryFilter) filter(entries []Entry) []Entry {
+	newEntries := []Entry{}
+
+	// generate matchers
+	matchers := make([]func(e Entry) bool, 0, 3)
+	addMatcher := func(regexpStr string, attrExtractor func(e Entry) string) {
+		if regexpStr == "" {
+			return
+		}
+		re := regexp.MustCompile(regexpStr)
+		matchers = append(matchers, func(e Entry) bool {
+			return re.MatchString(attrExtractor(e))
+		})
+	}
+	addMatcher(ef.Name, func(e Entry) string {
+		return e.Name
+	})
+	addMatcher(ef.URL, func(e Entry) string {
+		return e.URL
+	})
+	addMatcher(ef.Folder, func(e Entry) string {
+		return e.Folder()
+	})
+
+	if len(matchers) == 0 {
+		return append(newEntries, entries...)
+	}
+
+	// perform matching
+	for _, e := range entries {
+		matched := true
+		for _, match := range matchers {
+			if !match(e) {
+				matched = false
+				break
+			}
+		}
+		if matched {
+			newEntries = append(newEntries, e)
+		}
+	}
+
+	return newEntries
 }
 
 func (entry *Entry) ToJson() string {
