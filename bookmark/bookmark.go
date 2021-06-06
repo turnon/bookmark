@@ -134,6 +134,10 @@ func (b *Bookmark) roots() map[string]rawEntry {
 	}
 }
 
+func (b *Bookmark) Count() int {
+	return len(b.Entries())
+}
+
 func (b *Bookmark) Entries() []Entry {
 	if b.cachedEntries == nil {
 		b.lockCachedEntries.Lock()

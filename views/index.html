@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>bookmark</title>
+</head>
+
+<body>
+    total: {{ .Count }}<br />
+    {{range .Entries}}
+    -> {{ .Folder }} {{ .Name }} {{.URL }}<br />
+    {{end}}
+</body>
