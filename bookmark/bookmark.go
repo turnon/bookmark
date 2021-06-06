@@ -103,6 +103,18 @@ func (entry *Entry) ToJson() string {
 	return string(bytes)
 }
 
+func (e *Entry) Host() string {
+	u, err := url.Parse(e.URL)
+	if err != nil {
+		panic(err)
+	}
+	return u.Host
+}
+
+func (e *Entry) Folder() string {
+	return filepath.Join(e.path...)
+}
+
 func Load(path string) *Bookmark {
 	js, err := ioutil.ReadFile(path)
 	if err != nil {
@@ -154,18 +166,6 @@ func collectEntries(path []string, res []rawEntry, es []Entry) []Entry {
 	return es
 }
 
-func (e *Entry) Host() string {
-	u, err := url.Parse(e.URL)
-	if err != nil {
-		panic(err)
-	}
-	return u.Host
-}
-
-func (e *Entry) Folder() string {
-	return filepath.Join(e.path...)
-}
-
 func (b *Bookmark) Stats() ([]Stats, error) {
 	result := make([]Stats, 0, len(statMethods))
 	for methodName, method := range statMethods {
@@ -186,4 +186,10 @@ func (b *Bookmark) Stat(method string) ([]Stat, error) {
 
 	stats := statMethod.process(b.Entries())
 	return stats, nil
+}
+
+func (b *Bookmark) Filter(ef *EntryFilter) *Bookmark {
+	return &Bookmark{
+		cachedEntries: ef.filter(b.Entries()),
+	}
 }

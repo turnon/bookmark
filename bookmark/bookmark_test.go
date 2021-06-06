@@ -121,3 +121,11 @@ func TestFolderFilter(t *testing.T) {
 		}
 	}
 }
+
+func TestFilter(t *testing.T) {
+	ef := EntryFilter{Folder: "notes", Name: "壳", URL: "featured"}
+	b := bookmark.Filter(&ef)
+	if count := len(b.Entries()); count != 1 {
+		t.Error(b)
+	}
+}
