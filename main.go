@@ -2,13 +2,11 @@ package main
 
 import (
 	"flag"
-	"fmt"
 
 	"github/turnon/bookmark/bookmark"
 	"github/turnon/bookmark/views"
 
 	"github.com/gin-gonic/gin"
-	"github.com/k0kubun/pp"
 )
 
 func main() {
@@ -21,12 +19,6 @@ func main() {
 	}
 
 	b := bookmark.Load(*filePtr)
-
-	pp.Println(b.Stats())
-
-	for _, e := range b.Entries() {
-		fmt.Println(e.ToJson())
-	}
 
 	r := gin.Default()
 	r.GET("/", func(c *gin.Context) {
