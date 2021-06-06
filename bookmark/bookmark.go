@@ -183,13 +183,21 @@ func (b *Bookmark) Stats() ([]Stats, error) {
 }
 
 func (b *Bookmark) Stat(method string) ([]Stat, error) {
+	stats, err := b.VerboseStat(method)
+	if err != nil {
+		return nil, err
+	}
+	return stats.Groups, nil
+}
+
+func (b *Bookmark) VerboseStat(method string) (*Stats, error) {
 	statMethod, ok := statMethods[method]
 	if !ok {
 		return nil, errors.New(method + " is not defined")
 	}
 
 	stats := statMethod.process(b.Entries())
-	return stats, nil
+	return &Stats{Name: method, Label: statMethod.name, Groups: stats}, nil
 }
 
 func (b *Bookmark) Filter(ef *EntryFilter) *Bookmark {

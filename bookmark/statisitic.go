@@ -116,3 +116,15 @@ func (stm *statMethod) sort(stats []Stat) {
 
 	sort.Slice(stats, less)
 }
+
+func (st *Stat) Count() int {
+	return len(st.Entries)
+}
+
+func (sts *Stats) Count() int {
+	c := 0
+	for _, st := range sts.Groups {
+		c += st.Count()
+	}
+	return c
+}

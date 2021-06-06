@@ -7,8 +7,12 @@
 </head>
 
 <body>
+    {{ .Label }}<br />
     total: {{ .Count }}<br />
-    {{range .Entries}}
-    -> {{ .Folder }} {{ .Name }} {{.URL }}<br />
+    {{range .Groups}}
+    -> {{ .Group }} {{ .Count }}<br />
+    {{ range .Entries }}
+    {{ .Name }} {{ .URL }}<br />
+    {{ end }}
     {{end}}
 </body>
