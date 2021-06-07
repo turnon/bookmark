@@ -128,3 +128,11 @@ func (sts *Stats) Count() int {
 	}
 	return c
 }
+
+func StatOpts() map[string]string {
+	m := make(map[string]string)
+	for name, method := range statMethods {
+		m[name] = method.name
+	}
+	return m
+}
