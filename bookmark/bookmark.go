@@ -5,8 +5,8 @@ import (
 	"errors"
 	"io/ioutil"
 	"net/url"
-	"path/filepath"
 	"regexp"
+	"strings"
 	"sync"
 )
 
@@ -42,6 +42,8 @@ type Entry struct {
 	common
 	URL  string `json:"url"`
 	path []string
+
+	folder string
 }
 
 type EntryFilter struct {
@@ -112,7 +114,14 @@ func (e *Entry) Host() string {
 }
 
 func (e *Entry) Folder() string {
-	return filepath.Join(e.path...)
+	if e.folder != "" {
+		return e.folder
+	}
+	e.folder = strings.Join(e.path, "/")
+	if strings.HasPrefix(e.folder, "//") {
+		e.folder = e.folder[1:]
+	}
+	return e.folder
 }
 
 func Load(path string) *Bookmark {
@@ -163,7 +172,7 @@ func collectEntries(path []string, res []rawEntry, es []Entry) []Entry {
 			continue
 		}
 
-		e := Entry{re.common, re.URL, path}
+		e := Entry{common: re.common, URL: re.URL, path: path}
 		es = append(es, e)
 	}
 
