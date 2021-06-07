@@ -4,36 +4,102 @@
 <head>
     <meta charset="utf-8">
     <title>bookmark</title>
+    <style>
+        body {
+            overflow-y: scroll;
+        }
+
+        form {
+            width: 95%;
+            margin: auto;
+        }
+
+        .stat {
+            width: 94%;
+            margin: auto;
+            margin-top: 20px
+        }
+
+        .header {
+            padding: 20px 0;
+            background: azure;
+        }
+
+        .header label {
+            color: purple;
+            font-weight: bold;
+        }
+
+        .header input[type='submit'] {
+            color: purple;
+            font-weight: bold;
+        }
+
+        .total {
+            margin-bottom: 10px;
+        }
+
+        ul {
+            padding-left: 0
+        }
+
+        li {
+            list-style: none;
+        }
+
+        div.detail {
+            padding-left: 25px;
+            padding-bottom: 10px;
+            display: none
+        }
+
+        input[type='checkbox']:checked~div {
+            display: block
+        }
+    </style>
 </head>
 
-<body>
-    <form action="/">
-        <label>统计方法：</label>
-        <select name="stat">
-            {{ $selected := .Query.Stat }}
-            {{ range $value, $label := .StatOpts }}
-            <option value="{{ $value }}" {{ if eq $value $selected}} selected {{ end }}> {{ $label }}</option>
-            {{ end }}
-        </select>
+<body style="margin: 0;">
+    <div>
+        <div class="header">
+            <form action="/">
+                <label>统计方法：</label>
+                <select name="stat">
+                    {{ $selected := .Query.Stat }}
+                    {{ range $value, $label := .StatOpts }}
+                    <option value="{{ $value }}" {{ if eq $value $selected}} selected {{ end }}> {{ $label }}</option>
+                    {{ end }}
+                </select>&nbsp;&nbsp;&nbsp;
 
-        <label>名称：</label>
-        <input type="text" name="name" value="{{ .Query.Name }}">
+                <label>名称：</label>
+                <input type="text" name="name" value="{{ .Query.Name }}" />&nbsp;&nbsp;&nbsp;
 
-        <label>网址：</label>
-        <input type="text" name="url" value="{{ .Query.URL }}">
+                <label>网址：</label>
+                <input type="text" name="url" value="{{ .Query.URL }}" />&nbsp;&nbsp;&nbsp;
 
-        <label>目录：</label>
-        <input type="text" name="folder" value="{{ .Query.Folder }}">
+                <label>目录：</label>
+                <input type="text" name="folder" value="{{ .Query.Folder }}" />&nbsp;&nbsp;&nbsp;
 
-        <input type="submit" value="Submit">
-    </form>
+                <input type="submit" value="Submit">
+            </form>
+        </div>
 
+        <div class="stat">
+            <div class="total">total: {{ .Stats.Count }}</div>
 
-    total: {{ .Stats.Count }}<br />
-    {{range .Stats.Groups}}
-    -> {{ .Group }} {{ .Count }}<br />
-    {{ range .Entries }}
-    {{ .Name }} {{ .URL }}<br />
-    {{ end }}
-    {{end}}
+            <ul>
+                {{range .Stats.Groups}}
+                <li>
+                    <input type="checkbox" id="{{ .Group }}" />
+                    {{ .Group }} ({{ .Count }})
+                    <div class="detail">
+                        {{ range .Entries }}
+                        {{ .Folder }}/{{ .Name }} {{ .URL }}<br />
+                        {{ end }}
+                    </div>
+                </li>
+                {{end}}
+            </ul>
+        </div>
+    </div>
 </body>
