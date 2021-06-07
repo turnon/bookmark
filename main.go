@@ -10,7 +10,10 @@ import (
 )
 
 type query struct {
-	Stat string `form:"stat"`
+	Stat   string `form:"stat"`
+	Name   string `form:"name"`
+	URL    string `form:"url"`
+	Folder string `form:"folder"`
 }
 
 type page struct {
@@ -38,7 +41,8 @@ func main() {
 			q.Stat = "dirs"
 		}
 
-		stats, _ := b.VerboseStat(q.Stat)
+		filter := &bookmark.EntryFilter{Name: q.Name, URL: q.URL, Folder: q.Folder}
+		stats, _ := b.Filter(filter).VerboseStat(q.Stat)
 		p := page{Stats: stats, StatOpts: bookmark.StatOpts(), Query: q}
 
 		bytes, _ := views.Render("index.html", p)

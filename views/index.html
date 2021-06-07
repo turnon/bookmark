@@ -16,6 +16,15 @@
             {{ end }}
         </select>
 
+        <label>名称：</label>
+        <input type="text" name="name" value="{{ .Query.Name }}">
+
+        <label>网址：</label>
+        <input type="text" name="url" value="{{ .Query.URL }}">
+
+        <label>目录：</label>
+        <input type="text" name="folder" value="{{ .Query.Folder }}">
+
         <input type="submit" value="Submit">
     </form>
 
