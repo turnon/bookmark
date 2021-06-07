@@ -7,9 +7,21 @@
 </head>
 
 <body>
-    {{ .Label }}<br />
-    total: {{ .Count }}<br />
-    {{range .Groups}}
+    <form action="/">
+        <label>统计方法：</label>
+        <select name="stat">
+            {{ $selected := .Query.Stat }}
+            {{ range $value, $label := .StatOpts }}
+            <option value="{{ $value }}" {{ if eq $value $selected}} selected {{ end }}> {{ $label }}</option>
+            {{ end }}
+        </select>
+
+        <input type="submit" value="Submit">
+    </form>
+
+
+    total: {{ .Stats.Count }}<br />
+    {{range .Stats.Groups}}
     -> {{ .Group }} {{ .Count }}<br />
     {{ range .Entries }}
     {{ .Name }} {{ .URL }}<br />
