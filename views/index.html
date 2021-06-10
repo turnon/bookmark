@@ -22,16 +22,15 @@
 
         .header {
             padding: 20px 0;
-            background: azure;
+            background: darkslateblue;
         }
 
         .header label {
-            color: purple;
+            color: lightcyan;
             font-weight: bold;
         }
 
         .header input[type='submit'] {
-            color: purple;
             font-weight: bold;
         }
 
@@ -55,6 +54,15 @@
 
         input[type='checkbox']:checked~div {
             display: block
+        }
+
+        span.entry-folder {
+            color: #4d4d4d;
+        }
+
+        span.entry-name {
+            color: #9e9e9e;
+            font-size: small;
         }
     </style>
 </head>
@@ -94,7 +102,10 @@
                     {{ .Group }} ({{ .Count }})
                     <div class="detail">
                         {{ range .Entries }}
-                        {{ .Folder }}/{{ .Name }} {{ .URL }}<br />
+                        <span class="entry-folder">{{ .Folder }} </span>
+                        <span class="entry-name">{{ .Name }}</span>
+                        <span class="entry-url"><a href="{{ .URL }}">{{ .URL }}</a></span>
+                        <br />
                         {{ end }}
                     </div>
                 </li>
