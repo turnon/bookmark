@@ -3,6 +3,7 @@ package bookmark
 import (
 	"regexp"
 	"testing"
+	"time"
 )
 
 const testData = "./test_data.json"
@@ -13,6 +14,12 @@ func TestMain(m *testing.M) {
 	bookmark = Load(testData)
 	m.Run()
 }
+
+func TestUnixTime(t *testing.T) {
+	timing := time.Unix((-11644473600 + 13267972139374695/1000000), 0)
+	t.Log(timing)
+}
+
 func TestEntries(t *testing.T) {
 	entries := bookmark.Entries()
 	if count := len(entries); count != 7 {

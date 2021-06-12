@@ -103,7 +103,7 @@
                     <div class="detail">
                         {{ range .Entries }}
                         <span class="entry-folder">{{ .Folder }} </span>
-                        <span class="entry-name">{{ .Name }}</span>
+                        <span class="entry-name">{{ .Name }} ({{ .HumanDateAdded }})</span>
                         <span class="entry-url"><a href="{{ .URL }}">{{ .URL }}</a></span>
                         <br />
                         {{ end }}

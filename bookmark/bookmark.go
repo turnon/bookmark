@@ -6,8 +6,10 @@ import (
 	"io/ioutil"
 	"net/url"
 	"regexp"
+	"strconv"
 	"strings"
 	"sync"
+	"time"
 )
 
 type Bookmark struct {
@@ -29,6 +31,8 @@ type common struct {
 	GUID         string `json:"guid"`
 	ID           string `json:"id"`
 	Name         string `json:"name"`
+
+	humanDateAdded string
 }
 
 type rawEntry struct {
@@ -50,6 +54,20 @@ type EntryFilter struct {
 	Name   string
 	URL    string
 	Folder string
+}
+
+func (c *common) HumanDateAdded() string {
+	if c.humanDateAdded != "" {
+		return c.humanDateAdded
+	}
+
+	i, err := strconv.Atoi(c.DateAdded)
+	if err != nil {
+		c.humanDateAdded = "1999-01-01"
+	}
+	timing := time.Unix((-11644473600 + int64(i)/1000000), 0)
+	c.humanDateAdded = timing.Format("2006-01-02")
+	return c.humanDateAdded
 }
 
 func (ef *EntryFilter) filter(entries []Entry) []Entry {
