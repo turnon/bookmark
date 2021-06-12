@@ -58,6 +58,16 @@ var statMethods = map[string]*statMethod{
 		groupBy: func(e *Entry) string { return e.Folder() },
 		order:   atoz,
 	},
+	"years": {
+		name:    "按年",
+		groupBy: func(e *Entry) string { return e.HumanDateAddedYear() },
+		order:   atoz,
+	},
+	"yearMonths": {
+		name:    "按年月",
+		groupBy: func(e *Entry) string { return e.HumanDateAddedYearMonth() },
+		order:   atoz,
+	},
 }
 
 func (stm *statMethod) process(entries []Entry) []Stat {

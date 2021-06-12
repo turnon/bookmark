@@ -70,6 +70,14 @@ func (c *common) HumanDateAdded() string {
 	return c.humanDateAdded
 }
 
+func (c *common) HumanDateAddedYear() string {
+	return c.HumanDateAdded()[:4]
+}
+
+func (c *common) HumanDateAddedYearMonth() string {
+	return c.HumanDateAdded()[:7]
+}
+
 func (ef *EntryFilter) filter(entries []Entry) []Entry {
 	newEntries := []Entry{}
 
