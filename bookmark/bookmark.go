@@ -9,7 +9,8 @@ import (
 	"strconv"
 	"strings"
 	"sync"
-	"time"
+
+	"github.com/turnon/history/epoch"
 )
 
 type Bookmark struct {
@@ -65,8 +66,7 @@ func (c *common) HumanDateAdded() string {
 	if err != nil {
 		c.humanDateAdded = "1999-01-01"
 	}
-	timing := time.Unix((-11644473600 + int64(i)/1000000), 0)
-	c.humanDateAdded = timing.Format("2006-01-02")
+	c.humanDateAdded = epoch.From(int64(i), "2006-01-02")
 	return c.humanDateAdded
 }
 
