@@ -3,8 +3,8 @@ package main
 import (
 	"flag"
 
-	"github/turnon/bookmark/bookmark"
-	"github/turnon/bookmark/views"
+	"github.com/turnon/bookmark/bookmark"
+	"github.com/turnon/bookmark/views"
 
 	"github.com/gin-gonic/gin"
 )
