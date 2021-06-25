@@ -108,11 +108,19 @@ func (stm *statMethod) sort(stats []Stat) {
 	switch stm.order {
 	case desc:
 		less = func(i, j int) bool {
-			return len(stats[i].Entries) > len(stats[j].Entries)
+			iLen, jLen := len(stats[i].Entries), len(stats[j].Entries)
+			if iLen == jLen {
+				return stats[i].Group < stats[j].Group
+			}
+			return iLen > jLen
 		}
 	case asc:
 		less = func(i, j int) bool {
-			return len(stats[i].Entries) < len(stats[j].Entries)
+			iLen, jLen := len(stats[i].Entries), len(stats[j].Entries)
+			if iLen == jLen {
+				return stats[i].Group < stats[j].Group
+			}
+			return iLen < jLen
 		}
 	case atoz:
 		less = func(i, j int) bool {
